@@ -3,7 +3,7 @@ import string.lastChar
 import java.io.BufferedReader
 
 fun main() {
-    println("Kotlin".lastChar)
+    println("Kotlins".lastChar)
 }
 
 // 1, 2, 3 을 가진 리스트를 이용하여 “(1; 2; 3)” 출력하는 함수 만들기
