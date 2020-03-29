@@ -2,21 +2,25 @@ import string.join
 import string.lastChar
 import java.io.BufferedReader
 
-fun main() {
-    println("Kotlins".lastChar)
+// 경로 파싱에 정규식 사용하기
+fun parsePathRegular(path: String) {
+    val regex = """(.+)/(.+)\.(.+)""".toRegex()
+    val matchResult = regex.matchEntire(path)
+    if(matchResult != null) {
+        val (directory, fileName, extension) = matchResult.destructured
+        println("Dir: $directory, name: $fileName, ext: $extension")
+    }
 }
 
-// 1, 2, 3 을 가진 리스트를 이용하여 “(1; 2; 3)” 출력하는 함수 만들기
-//fun <T> joinToString(collection: Collection<T>, separator: String, prefix: String, postfix: String) : String {
-//    val result = StringBuilder(prefix)
-//    for((index, element) in collection.withIndex()) {
-//        if (index > 0) result.append(separator)
-//        result.append(element)
-//    }
-//
-//    result.append(postfix)
-//    return result.toString()
-//}
+// String 확장 함수를 사용해 경로 파싱하기
+fun parsePath(path: String) {
+    val directory = path.substringBeforeLast("/")
+    val fullName = path.substringAfterLast("/")
+    val fileName = fullName.substringBeforeLast(".")
+    val extension = fullName.substringAfterLast(".")
+
+    println("Dir: $directory, name: $fileName, ext: $extension")
+}
 
 // try 사용하기
 fun readNumber(reader: BufferedReader) {
@@ -66,3 +70,39 @@ fun evalWithLogging(e: Expr) : Int =
 interface Expr
 class Num(val value: Int) : Expr
 class Sum(val left: Expr, val right: Expr) : Expr
+
+class User(val id: Int, val name: String, val address: String)
+fun User.validateBeforeSave() {
+    fun validate(value: String, fieldName: String) {
+        if(value.isEmpty()) {
+            throw IllegalArgumentException("Cant't save user $id: empty $fieldName")
+        }
+    }
+    validate(name, "Name")
+    validate(address, "Address")
+}
+// 코드 중복을 보여주는 예제
+fun saveUser(user: User) {
+    if(user.name.isEmpty()) {
+        throw IllegalArgumentException("Can't save user ${user.id}: empty Name")
+    }
+    if(user.address.isEmpty()) {
+        throw IllegalArgumentException("Can't save user ${user.id}: empty Address")
+    }
+    // user를 데이터베이스에 저장
+}
+// 로컬 함수를 사용해 코드 중복 줄이기
+fun saveUserLocal(user: User) {
+    fun validate(value: String, fieldName: String) {
+        if(value.isEmpty()) {
+            throw IllegalArgumentException("Cant't save user ${user.id}: empty $fieldName")
+        }
+    }
+    validate(user.name, "Name")
+    validate(user.address, "Address")
+    // user를 데이터베이스에 저장
+}
+
+fun main() {
+    saveUserLocal(User(1, "", ""))
+}
