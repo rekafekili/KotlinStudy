@@ -1,7 +1,4 @@
-interface Clickable {
-    fun click()
-    fun showOff() = println("I'm clickable")
-}
+
 
 // 동일한 메소드를 구현하는 다른 인터페이스 정의
 interface Focusable {
@@ -16,6 +13,29 @@ class Button: Clickable, Focusable {
         super<Clickable>.showOff()
         super<Focusable>.showOff()
     }
+}
+
+
+
+// 열린 메소드를 포함하는 열린 클래스 정의하기
+open class RichButton : Clickable {
+    final override fun click() {}
+}
+
+// 추상 클래스 정의하기
+abstract class Animated {
+    abstract fun animate()
+
+    open fun stopAnimating() {
+    }
+
+    fun animateTwice() {
+    }
+}
+
+interface Clickable {
+    fun click()
+    fun showOff() = println("I'm clickable")
 }
 
 fun main() {
