@@ -1,4 +1,4 @@
-
+import java.io.Serializable
 
 // 동일한 메소드를 구현하는 다른 인터페이스 정의
 interface Focusable {
@@ -47,9 +47,35 @@ internal open class TalkativeButton : Focusable {
 //    whisper()
 //}
 
+// 직렬화할 수 있는 상태가 있는 뷰 선언
+interface State : Serializable
+
+interface View {
+    fun getCurrentState() : State
+    fun restoreState(state: State)
+}
+
+class Outer {
+    inner class Inner {
+        fun getOuterReference() : Outer = this@Outer
+    }
+}
+
+// Client에 hashCode() 구현하기
+//class Client(val name: String, val postalCode: Int) {
+//    override fun hashCode(): Int = name.hashCode() * 31 + postalCode
+//    override fun equals(other: Any?): Boolean {
+//        if(other == null || other !is Client)
+//            return false
+//        return name == other.name && postalCode == other.postalCode
+//    }
+//
+//    override fun toString(): String = "Client(name=$name, postalCode=$postalCode)"
+//}
+
+data class Client(val name: String, val postalCode: Int)
+
 fun main() {
-    val button = Button()
-    button.showOff()
-    button.setFocus(true)
-    button.click()
+    val processed = hashSetOf(Client("오현석", 4122))
+    println(processed.contains(Client("오현석", 4122)))
 }
