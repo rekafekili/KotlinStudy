@@ -15,8 +15,6 @@ class Button: Clickable, Focusable {
     }
 }
 
-
-
 // 열린 메소드를 포함하는 열린 클래스 정의하기
 open class RichButton : Clickable {
     final override fun click() {}
@@ -37,6 +35,17 @@ interface Clickable {
     fun click()
     fun showOff() = println("I'm clickable")
 }
+
+internal open class TalkativeButton : Focusable {
+    private fun yell() = println("Hey!")
+    protected fun whisper() = println("Let's talk!")
+}
+
+// 확장함수는 그 클래스의 private, protected 멤버에 접근할 수 없다.
+//fun TalkativeButton.giveSpeech() {
+//    yell()
+//    whisper()
+//}
 
 fun main() {
     val button = Button()
