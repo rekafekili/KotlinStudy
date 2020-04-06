@@ -76,6 +76,6 @@ class Outer {
 data class Client(val name: String, val postalCode: Int)
 
 fun main() {
-    val processed = hashSetOf(Client("오현석", 4122))
-    println(processed.contains(Client("오현석", 4122)))
+    val client = Client("정석", 4122)
+    println(client.copy(postalCode = 4000))
 }
