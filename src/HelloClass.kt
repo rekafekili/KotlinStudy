@@ -1,3 +1,4 @@
+import java.io.File
 import java.io.Serializable
 
 // 동일한 메소드를 구현하는 다른 인터페이스 정의
@@ -75,7 +76,91 @@ class Outer {
 
 data class Client(val name: String, val postalCode: Int)
 
+//class DelegatingCollection<T> : Collection<T> {
+//    private val innerList = arrayListOf<T>()
+//    override val size: Int get() = innerList.size
+//    override fun isEmpty(): Boolean = innerList.isEmpty()
+//    override fun contains(element: T): Boolean
+//            = innerList.contains(element)
+//    override fun iterator(): Iterator<T> = innerList.iterator()
+//    override fun containsAll(elements: Collection<T>): Boolean
+//            = innerList.containsAll(elements)
+//}
+
+class DelegatingCollection<T>(
+    innerList: Collection<T> = ArrayList<T>()
+) : Collection<T> by innerList { }
+
+class CountingSet<T>(
+    val innerSet: MutableCollection<T> = HashSet<T>()
+) : MutableCollection<T> by innerSet {
+    var objectsAdded = 0
+    override fun add(element: T) : Boolean {
+        objectsAdded++
+        return innerSet.add(element)
+    }
+
+    override fun addAll(c: Collection<T>) : Boolean {
+        objectsAdded += c.size
+        return innerSet.addAll(c)
+    }
+}
+
+object Payroll {
+    val allEmployees = arrayListOf<Person>()
+
+    fun calculateSalary() {
+        for(person in allEmployees) {
+            // ...
+        }
+    }
+}
+
+// 객체 선언을 사용해 Comparator 구현하기
+object CaseInsensitiveFileComparator: Comparator<File> {
+    override fun compare(file1: File, file2: File): Int {
+        return file1.path.compareTo(file2.path, ignoreCase = true)
+    }
+}
+
+class A {
+    companion object {
+        fun bar() {
+            println("Companion object called")
+        }
+    }
+}
+
+// 부 생성자가 여럿 있는 클래스 정의하기
+//class User {
+//    val nickName: String
+//    constructor(email: String) {
+//        nickName = email.substringBefore('@')
+//    }
+//    constructor(facebookAccountId: Int) {
+//        nickName = getFacebookName(facebookAccountId)
+//    }
+//}
+
+//// 부 생성자를 팩토리 메소드로 대신하가
+//class User private constructor(val nickName: String) {
+//    companion object {
+//        // 팩토리 메소드
+//        fun newSubscribingUser(email: String) =
+//            User(email.substringBefore('@'))
+//        fun newFacebookUser(accountId: Int) =
+//            User(getFacebookName(accountId))
+//    }
+//}
+
+// 동반 객체에 이름 붙이기
+class Person(val name: String) {
+    companion object Loader {
+        fun fromJSON(jsonText: String) : Person = ...
+    }
+}
+
 fun main() {
-    val client = Client("정석", 4122)
-    println(client.copy(postalCode = 4000))
+    person = Person.Loader.fromJSON("{name: 'Dmitry'}")
+    person.name
 }
