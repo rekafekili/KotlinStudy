@@ -1,3 +1,6 @@
+import java.awt.Window
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import java.io.File
 import java.io.Serializable
 
@@ -106,15 +109,15 @@ class CountingSet<T>(
     }
 }
 
-object Payroll {
-    val allEmployees = arrayListOf<Person>()
-
-    fun calculateSalary() {
-        for(person in allEmployees) {
-            // ...
-        }
-    }
-}
+//object Payroll {
+//    val allEmployees = arrayListOf<Person>()
+//
+//    fun calculateSalary() {
+//        for(person in allEmployees) {
+//            // ...
+//        }
+//    }
+//}
 
 // 객체 선언을 사용해 Comparator 구현하기
 object CaseInsensitiveFileComparator: Comparator<File> {
@@ -154,13 +157,59 @@ class A {
 //}
 
 // 동반 객체에 이름 붙이기
-class Person(val name: String) {
-    companion object Loader {
-        fun fromJSON(jsonText: String) : Person = ...
-    }
+//class Person(val name: String) {
+//    companion object Loader {
+//        fun fromJSON(jsonText: String) : Person = ...
+//    }
+//}
+
+// 동반 객체에서 인터페이스 구현하기
+//interface JSONFactory<T> {
+//    fun fromJSON(jsonText: String) : T
+//}
+
+//class Person(val name: String) {
+//    companion object : JSONFactory<Person> {
+//        override fun fromJSON(jsonText: String): Person {
+//            // ....
+//        }
+//    }
+//}
+
+// 동반 객체에 대한 확장 함수 정의하기
+/* 비즈니스 로직 모듈 */
+//class Person(val firstName: String, val lastName: String) {
+//    companion object {
+//        // 비어있는 동반 객체 선언
+//    }
+//}
+
+/* 클라이언트/서버 통신 모듈 */
+//fun Person.Companion.fromJSON(json: String) : Person {
+//    // 확장 함수 선언
+//}
+
+
+//val listener = object : MouseAdapter() { // MouseAdapter를 확장하는 무명 객체 선언
+//    override fun mouseClicked(e: MouseEvent?) {
+//        // ...
+//    }
+//
+//    override fun mouseEntered(e: MouseEvent) {
+//        // ...
+//    }
+//}
+
+// 무명 객체 안에서 로컬 변수 사용하기
+fun countClicks(window: Window) {
+    var clickCount = 0
+    window.addMouseListener(object: MouseAdapter() {
+        override fun mouseClicked(e: MouseEvent?) {
+            clickCount++
+        }
+    })
 }
 
 fun main() {
-    person = Person.Loader.fromJSON("{name: 'Dmitry'}")
-    person.name
+
 }
