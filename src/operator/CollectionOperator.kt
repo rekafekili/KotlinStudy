@@ -14,8 +14,9 @@ operator fun Point.get(index: Int): Int {
 
 // 관례를 따르는 set 구현하기
 data class MutablePoint(var x: Int, var y: Int)
+
 operator fun MutablePoint.set(index: Int, value: Int) {
-    when(index) {
+    when (index) {
         0 -> x = value
         1 -> y = value
         else ->
@@ -26,13 +27,13 @@ operator fun MutablePoint.set(index: Int, value: Int) {
 // in 관례 구현하기
 data class Rectangle(val upperLeft: Point, val lowerRight: Point)
 
-operator fun Rectangle.contains(p: Point) : Boolean {
+operator fun Rectangle.contains(p: Point): Boolean {
     return p.x in upperLeft.x until lowerRight.x &&
             p.y in upperLeft.y until lowerRight.y
 }
 
 // 날짜 범위에 대한 이터레이터 구현하기
-operator fun ClosedRange<LocalDate>.iterator() : Iterator<LocalDate> =
+operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
     // 이 객체는 LocalDate 원소에 대한 iterator를 구현한다.
     object : Iterator<LocalDate> {
         var current = start
@@ -43,12 +44,14 @@ operator fun ClosedRange<LocalDate>.iterator() : Iterator<LocalDate> =
         override fun next() = current.apply {
             // 현재 날짜를 저장한 다음에 날짜를 변경한다.
             // 그 후 저장해둔 날짜를 반환한다.
-            current = plusDays(1 )
+            current = plusDays(1)
         }
     }
 
 fun main() {
     val newYear = LocalDate.ofYearDay(2017, 1)
     val daysOff = newYear.minusDays(1)..newYear
-    for(dayOff in daysOff) { println(dayOff) }
+    for (dayOff in daysOff) {
+        println(dayOff)
+    }
 }
