@@ -29,13 +29,14 @@ operator fun <T> MutableCollection<T>.plusAssign(element: T) {
     this.add(element)
 }
 
+// 단항 연산자 정의하기
+operator fun Point.unaryMinus() : Point {
+    // 단항 minus(음수) 함수는 파라미터가 없다.
+    return Point(-x, -y)
+    // 좌표에서 각 성분의 음수를 취한 새 점을 반환한다.
+}
+
 fun main() {
-    val list = arrayListOf(1, 2)
-    list += 3 // list 변경
-
-    val newList = list + listOf(4, 5)
-    // 두 리스트의 모든 원소를 포함하는 새로운 리스트 반환
-
-    println(list)
-    println(newList)
+    val p = Point(10, 20)
+    println(-p)
 }
