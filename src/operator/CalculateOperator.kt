@@ -1,5 +1,7 @@
 package operator
 
+import java.math.BigDecimal
+
 // 화면 상의 점을 표현 하는 Point 클래스
 data class Point(val x: Int, val y: Int) {
     // "plus" 라는 이름의 연산자 함수를 정의
@@ -36,7 +38,15 @@ operator fun Point.unaryMinus() : Point {
     // 좌표에서 각 성분의 음수를 취한 새 점을 반환한다.
 }
 
+// 증가 연산자 정의하기
+operator fun BigDecimal.inc() = this + BigDecimal.ONE
+
 fun main() {
-    val p = Point(10, 20)
-    println(-p)
+    var bd = BigDecimal.ZERO
+
+    // 후위 증가 연산자는 println이 실행된 다음에 값을 증가시킨다.
+    println(bd++)
+
+    // 전위 증가 연산자는 println이 실행되기 전에 값을 증가시킨다.
+    println(++bd)
 }
