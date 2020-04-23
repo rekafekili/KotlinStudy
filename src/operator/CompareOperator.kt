@@ -13,10 +13,20 @@ class Point2(val x: Int, val y: Int) {
         return other.x == x && other.y == y
     }
 }
+
+// compareTo 메소드 구현하기
+class Person (
+    val firstName: String, val lastName: String
+) : Comparable<Person> {
+    override fun compareTo(other: Person): Int {
+        // 인자로 받은 함수를 차례로 호출하면서 값을 비교한다.
+        return compareValuesBy(this, other, Person::lastName, Person::firstName)
+    }
+}
+
 fun main() {
-    println(Point2(10, 20) == Point2(10, 20))
+    val p1 = Person("Alice", "Smith")
+    val p2 = Person("Bob", "Johnson")
 
-    println(Point2(10, 20) != Point2(5, 5))
-
-    println(null == Point2(1, 2))
+    println(p1<p2)
 }
