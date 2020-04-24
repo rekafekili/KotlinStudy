@@ -2,6 +2,8 @@ package operator
 
 import java.beans.PropertyChangeListener
 import java.beans.PropertyChangeSupport
+import kotlin.properties.Delegates
+import kotlin.reflect.KProperty
 
 /* 위임 프로퍼티 */
 //class Foo {
@@ -67,35 +69,41 @@ class Person2(
         }
 }
 
+// ObservableProperty 를 프로퍼티 위임에 사용할 수 있게 바꾼 모습
 class ObservableProperty(
-    val propName: String, var propValue: Int,
-    val changeSupport: PropertyChangeSupport
+    var propValue: Int, val changeSupport: PropertyChangeSupport
 ) {
-    fun getValue() : Int = propValue
-    fun setValue(newValue: Int) {
+    operator fun getValue(p: Person3, prop: KProperty<*>) : Int = propValue
+    operator fun setValue(p: Person3, prop: KProperty<*>, newValue: Int) {
         val oldValue = propValue
         propValue = newValue
-        changeSupport.firePropertyChange(propName, oldValue, newValue)
+        changeSupport.firePropertyChange(prop.name, oldValue, newValue)
     }
 }
 
+// 위임 프로퍼티를 통해 프로퍼티 변경 통지 받기
 class Person3(
     val name: String,
     age: Int,
     salary: Int
 ) : PropertyChangeAware() {
-    val _age = ObservableProperty("age", age, changeSupport)
-    var age: Int
-        get() = _age.getValue()
-        set(value) {
-            _age.setValue(value)
-        }
-    val _salary = ObservableProperty("salary", salary, changeSupport)
-    var salary: Int
-        get() = _salary.getValue()
-        set(value) {
-            _salary.setValue(value)
-        }
+    var age: Int by ObservableProperty(age, changeSupport)
+    var salary: Int by ObservableProperty(salary, changeSupport)
+}
+
+// Delegate.observable 을 사용해 프로퍼티 변경 통지 구현하기
+class Person4(
+    val name: String,
+    age: Int,
+    salary: Int
+) : PropertyChangeAware() {
+    private val observer = {
+        prop: KProperty<*>, oldValue: Int, newValue: Int ->
+        changeSupport.firePropertyChange(prop.name, oldValue, newValue)
+    }
+
+    var age: Int by Delegates.observable(age, observer)
+    var salary: Int by Delegates.observable(salary, observer)
 }
 
 fun main() {
