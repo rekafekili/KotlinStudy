@@ -2,6 +2,8 @@ package operator
 
 import java.beans.PropertyChangeListener
 import java.beans.PropertyChangeSupport
+import javax.swing.event.RowSorterEvent
+import javax.swing.text.html.parser.Entity
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -106,14 +108,45 @@ class Person4(
     var salary: Int by Delegates.observable(salary, observer)
 }
 
+// 위임 프로퍼티 컴파일 규칙
+//class C {
+//    private val <delegate> = MyDelegate()
+//    var prop: Type
+//        get() = <delegate>.getValue(this, <property>)
+//        set(value: Type) = <delegate>.setValue(this, <property>, value)
+//}
+
+// 값을 맵에 저장하는 위임 프로퍼티 정의하기
+class Person5 {
+    // 추가 정보
+    private val _attributes = hashMapOf<String, String>()
+    fun setAttribute(attrName: String, value: String) {
+        _attributes[attrName] = value
+    }
+
+    // 필수 정보
+    val name: String by _attributes
+}
+
+//// 위임 프로퍼티를 사용해 데이터베이스 칼럼 접근하기
+//object Users: IdTable() { // 객체는 데이터베이스 테이블에 해당한다.
+//    // 프로퍼티는 테이블 칼럼에 해당한다.
+//    val name = varchar("name", length = 50).index()
+//    val age = integer("age")
+//}
+//
+//// 각 User 인스턴스는 테이블에 들어있는 구체적인 엔티티에 해당한다.
+//class User(id: EntityID) : Entity(id) {
+//    // 사용자 이름은 데이터베이스 "name" 칼럼에 들어 있다.
+//    var name: String by Users.name
+//    var age: Int by Users.age
+//}
+
 fun main() {
-    val p = Person2("Dmitry", 34, 2000)
-    p.addPropertyChangeListener(
-        PropertyChangeListener { event ->
-            println("Property ${event.propertyName} changed " +
-                "from ${event.oldValue} to ${event.newValue}")
-        }
-    )
-    p.age = 35
-    p.salary = 2100
+    val p = Person5()
+    val data =
+        mapOf("name" to "Dmitry", "company" to "JetBrains")
+    for((attrName, value) in data)
+        p.setAttribute(attrName, value)
+    println(p.name)
 }
