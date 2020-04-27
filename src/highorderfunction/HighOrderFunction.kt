@@ -6,6 +6,7 @@ fun performRequest(
 ) {
     /* ... */
 }
+
 fun main() {
     val url = "http://kotl.in"
 
@@ -16,7 +17,7 @@ fun main() {
     performRequest(url) { code, page -> /* ... */ }
 
     // Int 파라미터를 2개 받아서 Int 값을 반환하는 함수
-    val sum: (Int, Int) -> Int = { x, y -> x + y}
+    val sum: (Int, Int) -> Int = { x, y -> x + y }
 
     // 아무 인자도 받지 않고 아무 값도 반환하지 않는 함수
     val action: () -> Unit = { println(42) }
