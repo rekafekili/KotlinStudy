@@ -7,7 +7,25 @@ fun performRequest(
     /* ... */
 }
 
+// 간단한 고차 함수 정의하기
+fun twoAndThree(operation: (Int, Int) -> Int) {
+    val result = operation(2,3)
+    println("The Result is $result")
+}
+
+// filter 함수를 단순하게 만든 버전 구현하기
+fun String.filter(predicate: (Char) -> Boolean): String {
+    val sb = StringBuilder()
+    for(index in 0 until length) {
+        val element = get(index)
+        if(predicate(element)) sb.append(element)
+    }
+    return sb.toString()
+}
+
 fun main() {
+    println("abc".filter { it in 'a'..'z' })
+
     val url = "http://kotl.in"
 
     // API에서 제공하는 이름을을 람다에 사용할 수 있다.
