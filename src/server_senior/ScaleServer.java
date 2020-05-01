@@ -7,7 +7,7 @@ import java.net.Socket;
 public class ScaleServer {
     public static void main(String[] args) {
         try {
-            ServerSocket server = new ServerSocket(1128, 10 );
+            ServerSocket server = new ServerSocket(1128, 10);
             while ( true ) {
                 Socket clientSocket = server.accept();
                 UserThread newUser = new UserThread(clientSocket);

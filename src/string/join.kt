@@ -29,6 +29,7 @@ fun <T> Collection<T>.joinToString(
     for ((index, element) in this.withIndex()) {
         if (index > 0) result.append(separator)
         result.append(element)
+        // 기본 toString 메소드를 사용해 객체를 문자열로 변환한다.
     }
 
     result.append(postfix)
