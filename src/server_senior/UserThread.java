@@ -46,10 +46,11 @@ public class UserThread extends Thread {
                 System.out.println("End of Input");
                 if(message != null) {
                     String[] messplit = message.split(",");
-                    if(messplit[0].equals("getcookingurl")) {
-                        output.println("{\"data\" : [{\"url\" : \"https://www.youtube.com/watch?v=NuZqsKzYM08\",\"title\" : \"면역력과 뼈건강을 지켜요 양배추바나나우유\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=XrPfSyByGH8\",\"title\" : \"2썸에서 파는 오레오아이스박스케이크! 노오븐으로 집에서 쉽게 디저트 만들기\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=JylSaWiNSqY\",\"title\" : \"두부조림 맛있게 만드는 방법 대공개! 두부조림레시피 5가지\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=zRpU7QS083g\",\"title\" : \"주꾸미볶음 매워서 싫다면 바로 확인! 간장쭈꾸미볶음\" ,\"author\" : \"만개의레시피\"}]}");
+                    if(messplit[0].equals("getServiceID")) {
+                        output.println("Apple_cooking,Samsung_cooking,Apple_guitar");
                         output.flush();
-                    }if(messplit[0].equals("getguitarurl")) {
+                    }if(messplit[0].equals("getlist")) {
+                        output.println("{\"data\" : [{\"url\" : \"https://www.youtube.com/watch?v=NuZqsKzYM08\",\"title\" : \"면역력과 뼈건강을 지켜요 양배추바나나우유\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=XrPfSyByGH8\",\"title\" : \"2썸에서 파는 오레오아이스박스케이크! 노오븐으로 집에서 쉽게 디저트 만들기\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=JylSaWiNSqY\",\"title\" : \"두부조림 맛있게 만드는 방법 대공개! 두부조림레시피 5가지\" ,\"author\" : \"만개의레시피\"},{\"url\" : \"https://www.youtube.com/watch?v=zRpU7QS083g\",\"title\" : \"주꾸미볶음 매워서 싫다면 바로 확인! 간장쭈꾸미볶음\" ,\"author\" : \"만개의레시피\"}]}");
                         output.flush();
                     }if(messplit[0].equals("getmeta")) {
                         output.flush();
